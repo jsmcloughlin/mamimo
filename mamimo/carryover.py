@@ -8,11 +8,11 @@ from typing import List, Optional
 import numpy as np
 from scipy.signal import convolve2d
 from sklearn.base import BaseEstimator, TransformerMixin, OneToOneFeatureMixin
-from sklearn.utils import check_array
 from sklearn.utils.validation import (
     FLOAT_DTYPES,
     _check_feature_names_in,
     check_is_fitted,
+    validate_data,
 )
 
 
@@ -78,7 +78,7 @@ class Carryover(OneToOneFeatureMixin, BaseEstimator, TransformerMixin, ABC):
             Fitted transformer.
 
         """
-        _ = self._validate_data(X, dtype=FLOAT_DTYPES)
+        _ = validate_data(self, X, dtype=FLOAT_DTYPES)
 
         self.sliding_window_ = self._get_sliding_window()
         self.sliding_window_ = (
@@ -103,8 +103,7 @@ class Carryover(OneToOneFeatureMixin, BaseEstimator, TransformerMixin, ABC):
 
         """
         check_is_fitted(self)
-        X = check_array(X)
-        self._check_n_features(X, reset=False)
+        X = validate_data(self, X, reset=False, dtype=FLOAT_DTYPES)
 
         convolution = convolve2d(X, self.sliding_window_, mode=self.mode)
 

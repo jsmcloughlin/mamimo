@@ -10,8 +10,8 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.utils.validation import (
     FLOAT_DTYPES,
     _check_feature_names_in,
-    check_array,
     check_is_fitted,
+    validate_data,
 )
 
 
@@ -232,7 +232,7 @@ class PowerTrend(BaseEstimator, TransformerMixin):
             Fitted transformer.
 
         """
-        _ = self._validate_data(X, dtype=FLOAT_DTYPES)
+        _ = validate_data(self, X, dtype=FLOAT_DTYPES)
 
         return self
 
@@ -252,8 +252,7 @@ class PowerTrend(BaseEstimator, TransformerMixin):
 
         """
         check_is_fitted(self)
-        X = check_array(X)
-        self._check_n_features(X, reset=False)
+        X = validate_data(self, X, reset=False, dtype=FLOAT_DTYPES)
 
         return X**self.power
 

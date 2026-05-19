@@ -10,9 +10,8 @@ from scipy.optimize import minimize
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.utils.validation import (
     _check_sample_weight,
-    check_array,
     check_is_fitted,
-    check_X_y,
+    validate_data,
 )
 
 
@@ -193,9 +192,8 @@ class BaseScipyMinimizeRegressor(BaseEstimator, RegressorMixin, ABC):
         return self
 
     def _prepare_inputs(self, X, sample_weight, y):
-        X, y = check_X_y(X, y)
+        X, y = validate_data(self, X, y)
         sample_weight = _check_sample_weight(sample_weight, X)
-        self._check_n_features(X, reset=True)
 
         n = X.shape[0]
 
@@ -223,8 +221,7 @@ class BaseScipyMinimizeRegressor(BaseEstimator, RegressorMixin, ABC):
 
         """
         check_is_fitted(self)
-        X = check_array(X)
-        self._check_n_features(X, reset=False)
+        X = validate_data(self, X, reset=False)
 
         return X @ self.coef_ + self.intercept_
 

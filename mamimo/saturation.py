@@ -10,8 +10,8 @@ from sklearn.base import BaseEstimator, TransformerMixin, OneToOneFeatureMixin
 from sklearn.utils.validation import (
     FLOAT_DTYPES,
     _check_feature_names_in,
-    check_array,
     check_is_fitted,
+    validate_data,
 )
 
 
@@ -38,7 +38,7 @@ class Saturation(OneToOneFeatureMixin, BaseEstimator, TransformerMixin, ABC):
             Fitted transformer.
 
         """
-        _ = self._validate_data(X, dtype=FLOAT_DTYPES)
+        _ = validate_data(self, X, dtype=FLOAT_DTYPES)
 
         return self
 
@@ -58,8 +58,7 @@ class Saturation(OneToOneFeatureMixin, BaseEstimator, TransformerMixin, ABC):
 
         """
         check_is_fitted(self)
-        X = check_array(X)
-        self._check_n_features(X, reset=False)
+        X = validate_data(self, X, reset=False, dtype=FLOAT_DTYPES)
 
         return self._transformation(X)
 

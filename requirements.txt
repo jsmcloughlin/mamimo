@@ -1,0 +1,12 @@
+# mamimo — updated dependencies
+# Tested on: sklearn 1.8.0 / numpy 2.4.6 / pandas 3.0.3 / scipy 1.17.1
+# Python: 3.12+ (compatible with Databricks Runtime 17.3)
+#
+# IMPORTANT: scikit-learn >= 1.6.0 is required.
+# The validate_data() module-level function (used in this version) was
+# introduced in sklearn 1.6.0. Earlier versions will raise ImportError.
+
+scikit-learn>=1.6.0
+numpy>=1.24.0
+pandas>=2.0.0
+scipy>=1.10.0
